@@ -1,60 +1,94 @@
-# 🇪🇺 EU Socioeconomic Clustering & Insights
+# K-Means Clustering & GDP Regression Analysis | EU Socioeconomic Policy Intelligence | Economic Research & Development Analytics
 
-**Python for Data Science — MSc Business Analytics & Data Science**  
-Maria Curie-Skłodowska University (UMCS), Lublin, Poland · Semester I · January 2026  
-**Author:** Candy-Mellania Severin
+**Python · scikit-learn · Plotly · World Bank API · K-Means Clustering · Linear Regression · Decision Tree · Jupyter**
 
 ---
 
-## Project Overview
+## The short version
 
-This project investigates the socioeconomic landscape of all **27 European Union member states** over a 22-year period (2000–2022). Using data retrieved live from the **World Bank Open Data API**, the analysis uncovers patterns in economic output, public investment, and human development — and uses machine learning to group countries into distinct development profiles.
-
-The project was built and explored entirely in a Jupyter Notebook environment, with an emphasis on interactive visualizations and hands-on application of data science techniques.
+Analyzed 22 years of World Bank data across all 27 EU member states to identify which policy levers — health spending, education investment, labor participation — actually move GDP. Built a K-Means clustering model that groups countries by development profile, a country-level regression model averaging R² = 0.97, and an interactive policy simulator that lets analysts test "what if" scenarios in real time. The analysis confirmed health spending as the single strongest GDP predictor (r = 0.92) and revealed a three-tier development structure across the EU that has direct implications for regional investment strategy.
 
 ---
 
-## What This Project Does
+## Business Problem
 
-| Stage | Description |
+The European Union distributes hundreds of billions in structural and cohesion funds every budget cycle. The core question driving those allocations is: **which socioeconomic investments actually produce economic returns, and for which types of economies?**
+
+A one-size-fits-all investment policy doesn't work when Luxembourg's GDP per capita is 7× Romania's. What works for a mature Western European economy doesn't necessarily translate to an emerging Eastern European one. Without data-driven country segmentation, policymakers and economic analysts risk misallocating resources — funding the wrong interventions in the wrong markets.
+
+This project simulates the kind of analysis a policy consulting team or economic research unit would run to answer that question: segment the EU by development profile, quantify the drivers of economic output, and give stakeholders a tool to model policy impact before committing to a direction.
+
+![Country Development Clusters](docs/visualizations/cluster_scatterplot.png)
+*K-Means clustering output: three distinct EU development tiers identified from 2022 data*
+
+---
+
+## Methodology
+
+**Data Collection** — All data was pulled directly from the World Bank Open Data API using `wbdata`, covering 6 socioeconomic indicators across 27 countries from 2000 to 2022. No static dataset: the notebook fetches live at runtime, so figures stay current.
+
+**Exploratory Data Analysis** — Started with distribution analysis (box plots by country), a Pearson correlation heatmap across all indicators, and an interactive country dashboard built with `ipywidgets` and `plotly` — letting you select any country and view all six indicators as time-series trends.
+
+**Clustering** — Applied K-Means (k=3) on standardized 2022 data using GDP per capita, health spending, education spending, and investment rate as features. Chose K-Means because the goal was segmentation for comparison, not anomaly detection.
+
+**Predictive Modelling** — Built separate Linear Regression models per country, using health spending, education, investment, and labor participation to predict GDP per capita. Evaluated with R² and RMSE.
+
+**Policy Simulator** — Built a Decision Tree regressor-powered interactive tool where analysts can adjust policy sliders and get a simulated GDP outcome. Designed as a what-if exploration tool for non-technical stakeholders.
+
+**Animated Visualization** — Built a Gapminder-style animated bubble chart showing GDP trajectories across all 27 countries from 2000 to 2020, with bubble size representing population.
+
+---
+
+## Skills
+
+| Category | Tools & Techniques |
 |---|---|
-| **Data Collection** | Automated retrieval of 6 socioeconomic indicators for 27 EU countries from the World Bank API (2000–2022) |
-| **Exploratory Analysis** | Box plots, correlation heatmaps, and country-level trend dashboards |
-| **Animated Visualization** | Gapminder-style animated bubble chart tracking GDP growth across all countries from 2000–2020 |
-| **Predictive Modelling** | Country-level linear regression models predicting GDP per capita from health, education, investment, and labour indicators |
-| **Clustering** | K-Means clustering to classify EU countries into three development groups |
-| **Policy Simulator** | Interactive Decision Tree-powered tool allowing users to adjust policy sliders and simulate GDP outcomes |
+| Language | Python 3.11 |
+| Data Manipulation | `pandas` (DataFrames, cleaning, groupby, filtering), `numpy` (array ops, normalization) |
+| Visualization | `matplotlib`, `seaborn` (heatmaps, box plots), `plotly` (interactive charts, animated bubble chart) |
+| Statistical Analysis | Pearson correlation, OLS regression via `statsmodels`, t-tests via `scipy` |
+| Machine Learning | K-Means Clustering, Linear Regression, Decision Tree Regressor — all via `scikit-learn` |
+| Model Evaluation | R², RMSE, StandardScaler for feature normalization |
+| Interactive UI | `ipywidgets` (dropdown dashboard, slider-based policy simulator) |
+| Data Engineering | World Bank API integration via `wbdata`, live data retrieval, missing value handling |
+| Environment | Jupyter Notebook |
 
 ---
 
-## Key Findings
-
-- **Health spending and GDP are strongly correlated** (r = 0.92) — the single strongest predictor of economic output across EU countries
-- **Three distinct development clusters** emerged from K-Means analysis:
-  - *High Development* — Northern & Western Europe (Luxembourg, Denmark, Ireland)
-  - *Moderate Development* — Continental & Southern Europe (France, Italy, Spain)
-  - *Emerging Economies* — Eastern Europe (Bulgaria, Romania, Poland)
-- **Eastern European countries show the steepest growth trajectories**, converging toward Western European levels over the study period
-- Country-level regression models achieved an **average R² of 0.97**, indicating strong predictive fit
-
----
-
-## Visualizations
-
-### Correlation Heatmap
-Pairwise Pearson correlations between all six socioeconomic indicators — highlights the dominant role of health spending.
+## Results & Business Recommendations
 
 ![Correlation Heatmap](docs/visualizations/correlation_heatmap.png)
+*Pearson correlation matrix — health spending per capita dominates at r = 0.92 with GDP*
 
-### GDP per Capita Distribution
-Box plot showing the spread and outliers in GDP per capita across all 27 member states, illustrating significant economic disparity within the EU.
+**What the data showed:**
 
-![GDP Box Plot](docs/visualizations/gdp_boxplot.png)
+Health spending per capita is the strongest predictor of GDP across the EU (r = 0.92) — stronger than education investment, labor participation, or capital formation. This doesn't mean health spending *causes* GDP growth in a simple sense, but it's a reliable signal of where a country sits in the development hierarchy.
 
-### Country Development Clusters
-K-Means scatter plot grouping EU countries by GDP and health spending in 2022, revealing the three-tier development structure.
+The K-Means model produced three clean clusters:
+- **Cluster 0 — High Development:** Luxembourg, Denmark, Netherlands, Sweden, Austria, Germany, Finland, Belgium. High GDP, high health spend, stable investment rates.
+- **Cluster 1 — Moderate Development:** France, Italy, Spain, Portugal, Cyprus, Malta, Slovenia, Czech Republic. Mid-range across all indicators.
+- **Cluster 2 — Emerging Economies:** Romania, Bulgaria, Hungary, Poland, Slovakia, Croatia, Lithuania, Latvia, Estonia. Lower GDP base but the steepest growth trajectories over the study period.
 
-![Cluster Scatterplot](docs/visualizations/cluster_scatterplot.png)
+![GDP Distribution](docs/visualizations/gdp_boxplot.png)
+*GDP per capita distribution — Luxembourg sits in a category of its own; Eastern European spread is tightening*
+
+Country-level regression models hit an average R² of 0.97, meaning the five-indicator model explains nearly all GDP variance within individual countries over time.
+
+**Recommendation:** Investment strategies targeting EU development should be cluster-specific. Emerging economy cluster countries are converging fast — the compounding returns on health and labor infrastructure investment are higher there than in already-mature markets. For Western European markets, the marginal return on additional health spend is low; the model suggests labor force participation rate as the more actionable lever.
+
+---
+
+## Next Steps
+
+Given more time, three things would make this significantly more useful:
+
+1. **Causal inference** — the regression models show correlation, not causation. Running difference-in-differences analysis around specific policy changes (e.g. post-2004 EU accession health reforms) would get closer to actual policy impact estimates.
+
+2. **Forecasting** — extending the model with ARIMA or Prophet to project 2025–2030 GDP trajectories per cluster, which is what a consulting deliverable would actually need.
+
+3. **Dashboard deployment** — converting the Jupyter notebook into a Streamlit or Dash web app so non-technical stakeholders can interact with the simulator without needing Python installed.
+
+**Limitations:** The policy simulator uses a Decision Tree trained on synthetic data for demonstration — a production version would need to be retrained on historical policy change events with verified outcome data.
 
 ---
 
@@ -63,85 +97,31 @@ K-Means scatter plot grouping EU countries by GDP and health spending in 2022, r
 ```
 eu-socioeconomic-clustering/
 ├── notebooks/
-│   └── eu_socioeconomic_analysis.ipynb   # Full analysis notebook (recommended entry point)
+│   └── eu_socioeconomic_analysis.ipynb   # Full analysis (start here)
 ├── scripts/
-│   └── eu_analysis_full.py               # Standalone Python script version
+│   └── eu_analysis_full.py               # Standalone script version
 ├── docs/
 │   └── visualizations/
 │       ├── correlation_heatmap.png
 │       ├── gdp_boxplot.png
 │       └── cluster_scatterplot.png
-├── data/                                  # Empty — data is fetched live from World Bank API
+├── data/                                  # Empty — data fetched live from World Bank API
 ├── requirements.txt
 └── README.md
 ```
-
-> **Note on the `data/` folder:** No static dataset is included. The notebook fetches all data dynamically from the World Bank API at runtime, ensuring the analysis always uses the most current available figures.
 
 ---
 
 ## Getting Started
 
-### Prerequisites
-- Python 3.8 or higher
-- pip
-- Active internet connection (for World Bank API access)
-
-### Installation
-
 ```bash
-# 1. Clone the repository
 git clone https://github.com/severincandymellania-ux/eu-socioeconomic-clustering.git
 cd eu-socioeconomic-clustering
-
-# 2. Install dependencies
 pip install -r requirements.txt
-```
-
-### Running the Notebook (Recommended)
-
-```bash
-pip install jupyter
 jupyter notebook
 ```
 
-Open `notebooks/eu_socioeconomic_analysis.ipynb` and run cells sequentially. The interactive dashboard, animated chart, and policy simulator all require a Jupyter environment to function.
-
-### Running as a Script
-
-```bash
-python scripts/eu_analysis_full.py
-```
-
-> Note: Running as a script will execute the analysis pipeline but will not display interactive `ipywidgets` elements (dropdown dashboard, policy simulator). Use Jupyter for the full experience.
-
----
-
-## Technologies & Libraries
-
-| Category | Libraries |
-|---|---|
-| Data Manipulation | `pandas`, `numpy` |
-| Visualisation | `matplotlib`, `seaborn`, `plotly` |
-| Statistical Analysis | `scipy`, `statsmodels` |
-| Machine Learning | `scikit-learn` (Linear Regression, K-Means, Decision Tree) |
-| Interactive UI | `ipywidgets` |
-| Data Source | `wbdata` (World Bank API client) |
-
----
-
-## Data Source
-
-All data is sourced from the **[World Bank Open Data API](https://data.worldbank.org/)**, licensed under [Creative Commons Attribution 4.0 (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
-
-| Indicator Code | Description |
-|---|---|
-| `NY.GDP.PCAP.CD` | GDP per capita (current US$) |
-| `SE.XPD.TOTL.GD.ZS` | Education spending (% of GDP) |
-| `SH.XPD.CHEX.PC.CD` | Health spending per capita (US$) |
-| `SP.POP.TOTL` | Total population |
-| `NE.GDI.TOTL.ZS` | Gross capital formation / Investment (% of GDP) |
-| `SL.TLF.CACT.ZS` | Labour force participation rate (%) |
+Open `notebooks/eu_socioeconomic_analysis.ipynb` and run cells sequentially. Active internet connection required for World Bank API access.
 
 ---
 
