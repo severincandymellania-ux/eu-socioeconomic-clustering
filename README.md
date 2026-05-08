@@ -6,7 +6,7 @@
 
 ## The short version
 
-Analyzed 22 years of World Bank data across all 27 EU member states to identify which policy levers — health spending, education investment, labor participation — actually move GDP. Built a K-Means clustering model that groups countries by development profile, a country-level regression model averaging R² = 0.97, and an interactive policy simulator that lets analysts test "what if" scenarios in real time. The analysis confirmed health spending as the single strongest GDP predictor (r = 0.92) and revealed a three-tier development structure across the EU that has direct implications for regional investment strategy.
+Analyzed 22 years of World Bank data across all 27 EU member states to identify which policy levers - health spending, education investment, labor participation - actually move GDP. Built a K-Means clustering model that groups countries by development profile, a country-level regression model averaging R² = 0.97, and an interactive policy simulator that lets analysts test "what if" scenarios in real time. The analysis confirmed health spending as the single strongest GDP predictor (r = 0.92) and revealed a three-tier development structure across the EU that has direct implications for regional investment strategy.
 
 ---
 
@@ -25,17 +25,17 @@ This project simulates the kind of analysis a policy consulting team or economic
 
 ## Methodology
 
-**Data Collection** — All data was pulled directly from the World Bank Open Data API using `wbdata`, covering 6 socioeconomic indicators across 27 countries from 2000 to 2022. No static dataset: the notebook fetches live at runtime, so figures stay current.
+**Data Collection** - All data was pulled directly from the World Bank Open Data API using `wbdata`, covering 6 socioeconomic indicators across 27 countries from 2000 to 2022. No static dataset: the notebook fetches live at runtime, so figures stay current.
 
-**Exploratory Data Analysis** — Started with distribution analysis (box plots by country), a Pearson correlation heatmap across all indicators, and an interactive country dashboard built with `ipywidgets` and `plotly` — letting you select any country and view all six indicators as time-series trends.
+**Exploratory Data Analysis** - Started with distribution analysis (box plots by country), a Pearson correlation heatmap across all indicators, and an interactive country dashboard built with `ipywidgets` and `plotly` — letting you select any country and view all six indicators as time-series trends.
 
-**Clustering** — Applied K-Means (k=3) on standardized 2022 data using GDP per capita, health spending, education spending, and investment rate as features. Chose K-Means because the goal was segmentation for comparison, not anomaly detection.
+**Clustering** - Applied K-Means (k=3) on standardized 2022 data using GDP per capita, health spending, education spending, and investment rate as features. Chose K-Means because the goal was segmentation for comparison, not anomaly detection.
 
-**Predictive Modelling** — Built separate Linear Regression models per country, using health spending, education, investment, and labor participation to predict GDP per capita. Evaluated with R² and RMSE.
+**Predictive Modelling** - Built separate Linear Regression models per country, using health spending, education, investment, and labor participation to predict GDP per capita. Evaluated with R² and RMSE.
 
-**Policy Simulator** — Built a Decision Tree regressor-powered interactive tool where analysts can adjust policy sliders and get a simulated GDP outcome. Designed as a what-if exploration tool for non-technical stakeholders.
+**Policy Simulator** - Built a Decision Tree regressor-powered interactive tool where analysts can adjust policy sliders and get a simulated GDP outcome. Designed as a what-if exploration tool for non-technical stakeholders.
 
-**Animated Visualization** — Built a Gapminder-style animated bubble chart showing GDP trajectories across all 27 countries from 2000 to 2020, with bubble size representing population.
+**Animated Visualization** - Built a Gapminder-style animated bubble chart showing GDP trajectories across all 27 countries from 2000 to 2020, with bubble size representing population.
 
 ---
 
@@ -65,9 +65,9 @@ This project simulates the kind of analysis a policy consulting team or economic
 Health spending per capita is the strongest predictor of GDP across the EU (r = 0.92) — stronger than education investment, labor participation, or capital formation. This doesn't mean health spending *causes* GDP growth in a simple sense, but it's a reliable signal of where a country sits in the development hierarchy.
 
 The K-Means model produced three clean clusters:
-- **Cluster 0 — High Development:** Luxembourg, Denmark, Netherlands, Sweden, Austria, Germany, Finland, Belgium. High GDP, high health spend, stable investment rates.
-- **Cluster 1 — Moderate Development:** France, Italy, Spain, Portugal, Cyprus, Malta, Slovenia, Czech Republic. Mid-range across all indicators.
-- **Cluster 2 — Emerging Economies:** Romania, Bulgaria, Hungary, Poland, Slovakia, Croatia, Lithuania, Latvia, Estonia. Lower GDP base but the steepest growth trajectories over the study period.
+- **Cluster 0 - High Development:** Luxembourg, Denmark, Netherlands, Sweden, Austria, Germany, Finland, Belgium. High GDP, high health spend, stable investment rates.
+- **Cluster 1 - Moderate Development:** France, Italy, Spain, Portugal, Cyprus, Malta, Slovenia, Czech Republic. Mid-range across all indicators.
+- **Cluster 2 - Emerging Economies:** Romania, Bulgaria, Hungary, Poland, Slovakia, Croatia, Lithuania, Latvia, Estonia. Lower GDP base but the steepest growth trajectories over the study period.
 
 ![GDP Distribution](docs/visualizations/gdp_boxplot.png)
 *GDP per capita distribution — Luxembourg sits in a category of its own; Eastern European spread is tightening*
@@ -82,13 +82,13 @@ Country-level regression models hit an average R² of 0.97, meaning the five-ind
 
 Given more time, three things would make this significantly more useful:
 
-1. **Causal inference** — the regression models show correlation, not causation. Running difference-in-differences analysis around specific policy changes (e.g. post-2004 EU accession health reforms) would get closer to actual policy impact estimates.
+1. **Causal inference** - the regression models show correlation, not causation. Running difference-in-differences analysis around specific policy changes (e.g. post-2004 EU accession health reforms) would get closer to actual policy impact estimates.
 
-2. **Forecasting** — extending the model with ARIMA or Prophet to project 2025–2030 GDP trajectories per cluster, which is what a consulting deliverable would actually need.
+2. **Forecasting** - extending the model with ARIMA or Prophet to project 2025–2030 GDP trajectories per cluster, which is what a consulting deliverable would actually need.
 
-3. **Dashboard deployment** — converting the Jupyter notebook into a Streamlit or Dash web app so non-technical stakeholders can interact with the simulator without needing Python installed.
+3. **Dashboard deployment** - converting the Jupyter notebook into a Streamlit or Dash web app so non-technical stakeholders can interact with the simulator without needing Python installed.
 
-**Limitations:** The policy simulator uses a Decision Tree trained on synthetic data for demonstration — a production version would need to be retrained on historical policy change events with verified outcome data.
+**Limitations:** The policy simulator uses a Decision Tree trained on synthetic data for demonstration - a production version would need to be retrained on historical policy change events with verified outcome data.
 
 ---
 
