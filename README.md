@@ -25,7 +25,7 @@ This project simulates the kind of analysis a policy consulting team or economic
 
 ## Methodology
 
-**Data Collection** - All data was pulled directly from the World Bank Open Data API using `wbdata`, covering 6 socioeconomic indicators across 27 countries from 2000 to 2022. No static dataset: the notebook fetches live at runtime, so figures stay current.
+**Data Collection** - All data was pulled directly from the [World Bank Open Data API](https://data.worldbank.org/) using [`wbdata`](https://github.com/OliverSherouse/wbdata), covering 6 socioeconomic indicators across 27 countries from 2000 to 2022. No static dataset: the notebook fetches live at runtime, so figures stay current.
 
 **Exploratory Data Analysis** - Started with distribution analysis (box plots by country), a Pearson correlation heatmap across all indicators, and an interactive country dashboard built with `ipywidgets` and `plotly` — letting you select any country and view all six indicators as time-series trends.
 
